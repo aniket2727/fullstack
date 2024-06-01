@@ -1,5 +1,6 @@
+// CrudOperations.js
 import React, { useEffect, useState } from 'react';
-import { getdata ,updatedata} from './Apicalling';
+import { getdata, updatedataapi, deletedata } from './Apicalling';
 
 const CrudOperations = () => {
     const [data, setData] = useState([]);
@@ -19,25 +20,34 @@ const CrudOperations = () => {
         fetchData();
     }, []);
 
-    const updatedata=(param)=>{
-
-        const dataforupdate=data.id===param;
-
-        const updateddata={
-            id:param,
+    const updateData = async (param) => {
+        const updateddata = {
+            id: param,
             "name": "sanket",
             "surname": "Doe",
             "rollnumber": 123666,
             "phonenumber": 1890
+        };
+    
+        try {
+            await updatedataapi(updateddata);
+            // Optionally, update the local state or perform other actions after successful update
+        } catch (error) {
+            console.error('Error updating data:', error);
+            // Handle errors if necessary
         }
-
-        updatedata(updatedata)
-
-    }
-
-    const deletedata=(param)=>{
-
-    }
+    };
+    
+    const deleteData = async (param) => {
+        try {
+            await deletedata(param);
+            // Optionally, update the local state or perform other actions after successful deletion
+        } catch (error) {
+            console.error('Error deleting data:', error);
+            // Handle errors if necessary
+        }
+    };
+    
 
     return (
         <div>
@@ -45,9 +55,9 @@ const CrudOperations = () => {
             <ul>
                 {data.map((item, index) => (
                     <div key={index}>
-                        <li >{item.name}</li>
-                        <button onClick={()=>updatedata(item.id)}>delete</button>
-                        <button onClick={()=>deletedata(item.id)}>edit</button>
+                        <li>{item.name}</li>
+                        <button onClick={() => deleteData(item.id)}>delete</button>
+                        <button onClick={() => updateData(item.id)}>edit</button>
                     </div>
                 ))}
             </ul>
@@ -56,3 +66,5 @@ const CrudOperations = () => {
 };
 
 export default CrudOperations;
+
+

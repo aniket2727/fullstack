@@ -1,30 +1,24 @@
+// Apicalling.js
 const { json } = require("react-router-dom");
 
-
-
-const getdata=async()=>{
-
-     try{
-        const getdataapi=await fetch('http://localhost:9009/');
-        if(getdataapi.ok){
-            const result=await getdataapi.json();
-            return result
+const getdata = async () => {
+    try {
+        const getdataapi = await fetch('http://localhost:9009/');
+        if (getdataapi.ok) {
+            const result = await getdataapi.json();
+            return result;
+        } else {
+            throw new Error("Invalid data");
         }
-       else{
-        throw new Error ("invalid data");
-       }
-    
-     }
-     catch(error){
-        return "internal system error or wrong data"
-     }
-}
+    } catch (error) {
+        return "Internal system error or wrong data";
+    }
+};
 
-
-const updatedata = async (updatedata) => {
+const updatedataapi = async (updatedata) => {
     const params = updatedata.id;
     try {
-        const getdataapi = await fetch(`http://localhost:9009/${params}`, {
+        const getdataapi = await fetch(`http://localhost:9009/put-data/${params}`, {
             method: "PUT",
             body: JSON.stringify(updatedata),
             headers: {
@@ -38,5 +32,19 @@ const updatedata = async (updatedata) => {
     }
 };
 
+const deletedata = async (param) => {
+    try {
+        // Perform delete operation using the param
+        // For example:
+        await fetch(`http://localhost:9009/delete-data/${param}`, {
+            method: "DELETE"
+        });
+        // Update the UI or perform other actions after successful deletion
+    } catch (error) {
+        console.error('Error deleting data:', error);
+        // Handle errors if necessary
+    }
+};
 
-module.exports={getdata,updatedata}
+module.exports = { getdata, updatedataapi, deletedata };
+
