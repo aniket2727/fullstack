@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getdata } from './Apicalling';
+import { getdata ,updatedata} from './Apicalling';
 
 const CrudOperations = () => {
     const [data, setData] = useState([]);
@@ -19,15 +19,35 @@ const CrudOperations = () => {
         fetchData();
     }, []);
 
+    const updatedata=(param)=>{
+
+        const dataforupdate=data.id===param;
+
+        const updateddata={
+            id:param,
+            "name": "sanket",
+            "surname": "Doe",
+            "rollnumber": 123666,
+            "phonenumber": 1890
+        }
+
+        updatedata(updatedata)
+
+    }
+
+    const deletedata=(param)=>{
+
+    }
+
     return (
         <div>
             {error && <p>{error}</p>}
             <ul>
                 {data.map((item, index) => (
-                    <div  key={index}>
-                    <li >{item.name}</li>
-                    <button>delete</button>
-                    <button>edit</button>
+                    <div key={index}>
+                        <li >{item.name}</li>
+                        <button onClick={()=>updatedata(item.id)}>delete</button>
+                        <button onClick={()=>deletedata(item.id)}>edit</button>
                     </div>
                 ))}
             </ul>

@@ -1,3 +1,4 @@
+const { json } = require("react-router-dom");
 
 
 
@@ -20,4 +21,22 @@ const getdata=async()=>{
 }
 
 
-module.exports={getdata}
+const updatedata = async (updatedata) => {
+    const params = updatedata.id;
+    try {
+        const getdataapi = await fetch(`http://localhost:9009/${params}`, {
+            method: "PUT",
+            body: JSON.stringify(updatedata),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        // Handle response if needed
+    } catch (error) {
+        console.error('Error updating data:', error);
+        throw error; // Re-throw the error to be caught by the calling function
+    }
+};
+
+
+module.exports={getdata,updatedata}
